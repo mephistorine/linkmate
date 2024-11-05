@@ -1,0 +1,2 @@
+- https://github.com/go-playground/validator, https://echo.labstack.com/docs/request#validate-data
+- https://github.com/pressly/goose
