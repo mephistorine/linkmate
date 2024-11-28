@@ -12,7 +12,10 @@
       "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/test-setup.[jt]s"
     ],
-    "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
+    "sharedGlobals": [
+      "{workspaceRoot}/.github/workflows/ci.yml",
+      "{workspaceRoot}/go.work"
+    ]
   },
   "nxCloudId": "67479d362a502d0e7369ddb4",
   "targetDefaults": {
@@ -51,5 +54,6 @@
       "style": "css",
       "unitTestRunner": "jest"
     }
-  }
+  },
+  "plugins": ["@nx-go/nx-go"]
 }

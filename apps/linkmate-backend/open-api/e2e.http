@@ -1,0 +1,122 @@
+### Register
+POST {{host}}/auth/register
+Content-Type: application/json
+
+{
+    "email": "{{userEmail}}",
+    "name": "Short Link",
+    "password": "{{userPassword}}"
+}
+
+> {%
+    client.assert(response.status === 201)
+%}
+
+### Login
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "{{userEmail}}",
+    "password": "{{userPassword}}"
+}
+
+> {%
+    client.assert(response.status === 200)
+    client.global.set("authToken", response.body.accessToken)
+%}
+
+### Get self data
+GET {{host}}/users/self
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+> {%
+    client.assert(response.body.email === request.environment.get("userEmail"), "Received email is not equal user email")
+%}
+
+### Create link
+< {%
+    request.variables.set("url", "https://t.me/mephistorine_speak/20")
+%}
+POST {{host}}/links
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "key": "",
+    "url": "{{url}}"
+}
+
+> {% client.global.set("linkId", response.body.id) %}
+
+### Get my links
+GET {{host}}/links
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+### Create tag
+POST {{host}}/tags
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "name": "Test 4",
+    "color": "FFFFFF"
+}
+
+> {% client.global.set("tagId", response.body.id) %}
+
+### Update tag
+PUT {{host}}/tags?id={{tagId}}
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "name": "New test",
+    "color": "FFFFFF"
+}
+
+### Get my tags
+GET {{host}}/tags
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+### Delete tag by id
+DELETE {{host}}/tags?id={{tagId}}
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+### Add tags to link
+POST {{host}}/tags/settings
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "linkId": 2,
+    "tagIds": [
+        2
+    ]
+}
+
+### Remove tags from link
+DELETE {{host}}/tags/settings
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "linkId": {{linkId}},
+    "tagIds": [
+        2, 5
+    ]
+}
+
+### Analytics dashboard
+POST {{host}}/analytics/dashboard
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "intervalStart": "2024-11-22T11:28:13.892Z",
+    "intervalEnd": "2024-11-24T11:28:13.892Z"
+}
