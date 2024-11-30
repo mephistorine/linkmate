@@ -65,6 +65,16 @@ type DashboardDataResDto struct {
 	Countries        []CountryVisit       `json:"countries"`
 }
 
+// DashboardHandler godoc
+//
+//	@summary	Analytics data
+//	@router		/analytics/dashboard [post]
+//	@param		data	body	analytics.DashboardParamsReqDto	true	"Analytics params"
+//	@success	200
+//	@tags		analytics
+//	@accept		json
+//	@produce	json
+//	@security	ApiKeyAuth
 func (c *Controller) DashboardHandler(ctx echo.Context) error {
 	dto := new(DashboardParamsReqDto)
 

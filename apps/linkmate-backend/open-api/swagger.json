@@ -15,6 +15,41 @@
     "host": "localhost:9000",
     "basePath": "/api",
     "paths": {
+        "/analytics/dashboard": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "analytics"
+                ],
+                "summary": "Analytics data",
+                "parameters": [
+                    {
+                        "description": "Analytics params",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/analytics.DashboardParamsReqDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/auth/login": {
             "post": {
                 "consumes": [
@@ -444,6 +479,17 @@
         }
     },
     "definitions": {
+        "analytics.DashboardParamsReqDto": {
+            "type": "object",
+            "properties": {
+                "intervalEnd": {
+                    "type": "string"
+                },
+                "intervalStart": {
+                    "type": "string"
+                }
+            }
+        },
         "auth.LoginRequestDto": {
             "type": "object",
             "properties": {
