@@ -1,20 +1,32 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "rootDir": ".",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "es2015",
-    "module": "esnext",
-    "lib": ["es2020", "dom"],
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "baseUrl": ".",
-    "paths": {}
-  },
-  "exclude": ["node_modules", "tmp"]
+    "compileOnSave": false,
+    "compilerOptions": {
+        "rootDir": ".",
+        "sourceMap": true,
+        "declaration": false,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "target": "es2015",
+        "module": "esnext",
+        "lib": ["es2020", "dom"],
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@linkmate/auth-domain": ["libs/auth/domain/src/index.ts"],
+            "@linkmate/auth-feature-login-page": [
+                "libs/auth/feature-login-page/src/index.ts"
+            ],
+            "@linkmate/core-feature-shell": [
+                "libs/core/feature-shell/src/index.ts"
+            ],
+            "@linkmate/home-feature-home-page": [
+                "libs/home/feature-home-page/src/index.ts"
+            ]
+        },
+        "strict": true
+    },
+    "exclude": ["node_modules", "tmp"]
 }

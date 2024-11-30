@@ -1,0 +1,75 @@
+:host {
+    height: 100%;
+    display: flex;
+}
+
+.sidebar {
+    width: clamp(150px, 15cqw, 200px);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    justify-content: space-between;
+}
+
+.main-content {
+    flex-grow: 1;
+    margin: 1rem;
+    margin-inline-start: 0;
+    background: var(--bs-tertiary-bg);
+    border-radius: 0.5rem;
+    overflow-y: auto;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-container .title {
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.navigation-container {
+    flex-grow: 1;
+}
+
+.navigation {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.navigation-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--bs-secondary);
+}
+
+.navigation-link.disabled {
+    opacity: 0.5;
+}
+
+.navigation-link.active:not(.disabled),
+.navigation-link:hover:not(.disabled) {
+    color: light-dark(var(--bs-black), var(--bs-light));
+}
+
+.icon {
+    --size: 1.3rem;
+}
+
+.profile-btn {
+    padding: 0;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    inline-size: 100%;
+}
