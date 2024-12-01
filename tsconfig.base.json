@@ -19,11 +19,21 @@
             "@linkmate/auth-feature-login-page": [
                 "libs/auth/feature-login-page/src/index.ts"
             ],
+            "@linkmate/auth-util-guards": [
+                "libs/auth/util-guards/src/index.ts"
+            ],
+            "@linkmate/auth-util-interceptors": [
+                "libs/auth/util-interceptors/src/index.ts"
+            ],
             "@linkmate/core-feature-shell": [
                 "libs/core/feature-shell/src/index.ts"
             ],
             "@linkmate/home-feature-home-page": [
                 "libs/home/feature-home-page/src/index.ts"
+            ],
+            "@linkmate/links-domain": ["libs/links/domain/src/index.ts"],
+            "@linkmate/links-feature-links-page": [
+                "libs/links/feature-links-page/src/index.ts"
             ]
         },
         "strict": true

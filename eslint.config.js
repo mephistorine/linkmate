@@ -21,10 +21,6 @@ module.exports = [
                             onlyDependOnLibsWithTags: ["*"]
                         },
                         {
-                            sourceTag: "type:util",
-                            onlyDependOnLibsWithTags: [""]
-                        },
-                        {
                             sourceTag: "type:ui",
                             onlyDependOnLibsWithTags: ["type:util"],
                         },
