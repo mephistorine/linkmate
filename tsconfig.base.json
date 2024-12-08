@@ -32,8 +32,14 @@
                 "libs/home/feature-home-page/src/index.ts"
             ],
             "@linkmate/links-domain": ["libs/links/domain/src/index.ts"],
+            "@linkmate/links-feature-link-create-page": [
+                "libs/links/feature-link-create-page/src/index.ts"
+            ],
             "@linkmate/links-feature-links-page": [
                 "libs/links/feature-links-page/src/index.ts"
+            ],
+            "@linkmate/shared-util-logger": [
+                "libs/shared/util-logger/src/index.ts"
             ]
         },
         "strict": true

@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import {CdkCopyToClipboard} from "@angular/cdk/clipboard"
+import {ChangeDetectionStrategy, Component, inject, OnInit} from "@angular/core"
 import {RouterLink} from "@angular/router"
+import {LinksFacade} from "@linkmate/links-domain"
 
 @Component({
     selector: "lib-links-feature-links-page",
@@ -10,6 +11,19 @@ import {RouterLink} from "@angular/router"
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         RouterLink,
+        CdkCopyToClipboard,
     ],
 })
-export class LinksFeatureLinksPageComponent {}
+export class LinksFeatureLinksPageComponent implements OnInit {
+    linksFacade = inject(LinksFacade)
+
+    ngOnInit(): void {
+        this.linksFacade.loadLinks()
+    }
+
+    originalUrlIcon(urlString: string) {
+        const url = new URL(urlString)
+        // TODO: Вынести в переменные окружения
+        return `https://www.google.com/s2/favicons?domain=${url.host}&sz=128`
+    }
+}

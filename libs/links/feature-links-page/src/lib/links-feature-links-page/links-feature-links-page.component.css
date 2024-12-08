@@ -18,10 +18,18 @@
     padding-inline-end: 0;
 }
 
+.card-icon-container img {
+    max-width: 32px;
+}
+
 .card-actions {
     padding: 1rem;
     display: flex;
     align-items: start;
     gap: 0.5rem;
     padding-inline-start: 0;
+}
+
+.card-title a {
+    text-decoration: none;
 }

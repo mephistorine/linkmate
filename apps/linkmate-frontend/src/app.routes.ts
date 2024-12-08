@@ -27,6 +27,22 @@ export const appRoutes: Route[] = [
                 component: LinksFeatureLinksPageComponent,
                 title: createTitle("Links"),
             },
+            /*{
+                path: "links/edit",
+                component: LinksFeatureLinkUpsertPageComponent,
+                title: createTitle("Edit link"),
+            },
+            {
+                path: "links/create",
+                component: LinksFeatureLinkUpsertPageComponent,
+                title: createTitle("Create link"),
+            },*/
+            {
+                path: "links/create",
+                loadComponent: () => import("@linkmate/links-feature-link-create-page")
+                    .then(m => m.LinksFeatureLinkCreatePageComponent),
+                title: createTitle("Create link")
+            },
             {
                 path: "",
                 redirectTo: "/links",

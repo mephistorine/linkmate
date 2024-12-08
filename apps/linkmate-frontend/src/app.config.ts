@@ -5,7 +5,10 @@ import {
 } from "@angular/common/http"
 import {ApplicationConfig, provideZoneChangeDetection} from "@angular/core"
 import {provideRouter} from "@angular/router"
-import {authTokenInterceptor} from "@linkmate/auth-util-interceptors"
+import {
+    authErrorInterceptor,
+    authTokenInterceptor,
+} from "@linkmate/auth-util-interceptors"
 import {appRoutes} from "./app.routes"
 
 export const appConfig: ApplicationConfig = {
@@ -15,8 +18,9 @@ export const appConfig: ApplicationConfig = {
         provideHttpClient(
             withFetch(),
             withInterceptors([
-                authTokenInterceptor
-            ])
-        )
+                authTokenInterceptor,
+                authErrorInterceptor,
+            ]),
+        ),
     ],
 }

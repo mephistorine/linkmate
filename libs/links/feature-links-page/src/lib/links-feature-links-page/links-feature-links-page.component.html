@@ -2,28 +2,45 @@
     <header class="links-header mb-3">
         <h2 class="m-0">Links</h2>
 
-        <button type="button" class="btn btn-primary">Create link</button>
+        <a routerLink="/links/create" class="btn btn-primary btn-sm">Create link</a>
     </header>
 
-    <div>
-        <div class="card">
-            <div class="card-icon-container">
-                <img src="https://www.google.com/s2/favicons?domain=github.com&sz=32" alt="">
+    @switch (linksFacade.linksLoadingState()) {
+        @case ("LOADING") {
+            <div class="text-center">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
             </div>
+        }
+        @case ("ERROR") {
+            <div>Error</div>
+        }
+        @case ("SUCCESS") {
+            <div class="d-flex flex-column gap-3">
+                @for (link of linksFacade.links(); track link.id) {
+                    <div class="card">
+                        <div class="card-icon-container">
+                            <img [attr.src]="originalUrlIcon(link.url)" alt="">
+                        </div>
 
-            <div class="card-body">
-                <h5 class="card-title">
-                    <a href="#">lnkm.run/kV7ieQ</a>
-                </h5>
-                <p class="card-text">
-                    <a href="#" class="text-secondary">https://github.com/mephistorine/linkmate/blob/master/README.md</a>
-                </p>
-            </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a [attr.href]="'http://localhost:9000/'+link.key" target="_blank">localhost:9000/{{ link.key }}</a>
+                            </h5>
+                            <p class="card-text">
+                                <a href="#" target="_blank" class="text-secondary">{{ link.url }}</a>
+                            </p>
+                        </div>
 
-            <div class="card-actions">
-                <button type="button" class="btn btn-secondary btn-sm">Copy</button>
-                <button type="button" class="btn btn-secondary btn-sm">Edit</button>
+                        <div class="card-actions">
+                            <!--TODO: Добавить сообщение о успешном копировании-->
+                            <button [cdkCopyToClipboard]="'http://localhost:9000/'+link.key" type="button" class="btn btn-secondary btn-sm">Copy</button>
+                            <a routerLink="/links/edit" [queryParams]="{'id': link.id}" class="btn btn-secondary btn-sm">Edit</a>
+                        </div>
+                    </div>
+                }
             </div>
-        </div>
-    </div>
+        }
+    }
 </div>

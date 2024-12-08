@@ -1,8 +1,5 @@
 import {computed, inject, Injectable, signal} from "@angular/core"
-import {
-    WA_LOCAL_STORAGE,
-    WA_SESSION_STORAGE,
-} from "@ng-web-apis/common"
+import {WA_LOCAL_STORAGE, WA_SESSION_STORAGE} from "@ng-web-apis/common"
 import {first, tap} from "rxjs"
 
 import {AuthDataAccess} from "../infra/auth.data-access"
@@ -22,9 +19,11 @@ export class AuthFacade {
         const authData = this.sessionStorage.getItem("linkmate:authData") ?? this.localStorage.getItem("linkmate:authData")
         if (authData) {
             try {
-                const parsedData = JSON.parse(authData) as {readonly accessToken: string}
+                const parsedData = JSON.parse(authData) as {
+                    readonly accessToken: string
+                }
                 this.authData.set({
-                    accessToken: parsedData.accessToken
+                    accessToken: parsedData.accessToken,
                 })
             } catch (err) {
                 this.authData.set({accessToken: ""})
@@ -43,5 +42,11 @@ export class AuthFacade {
                 }),
             )
             .subscribe()
+    }
+
+    reset() {
+        this.authData.set({accessToken: ""})
+        this.localStorage.removeItem("linkmate:authData")
+        this.sessionStorage.removeItem("linkmate:authData")
     }
 }
