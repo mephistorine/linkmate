@@ -16,7 +16,7 @@ import {NgxControlError} from "ngxtension/control-error"
     styleUrl: "./auth-feature-login-page.component.css",
 })
 export class AuthFeatureLoginPageComponent {
-    private fb = inject(NonNullableFormBuilder)
+    private readonly fb = inject(NonNullableFormBuilder)
     private readonly authFacade = inject(AuthFacade)
     private readonly router = inject(Router)
 
@@ -40,7 +40,6 @@ export class AuthFeatureLoginPageComponent {
         }
 
         const value = this.form.getRawValue()
-
         this.authFacade.login(
             value.email,
             value.password,

@@ -1,4 +1,5 @@
 import {computed, inject, Injectable, signal} from "@angular/core"
+import {Router} from "@angular/router"
 import {WA_LOCAL_STORAGE, WA_SESSION_STORAGE} from "@ng-web-apis/common"
 import {first, tap} from "rxjs"
 
@@ -6,6 +7,7 @@ import {AuthDataAccess} from "../infra/auth.data-access"
 
 @Injectable({providedIn: "root"})
 export class AuthFacade {
+    private readonly router = inject(Router)
     private readonly authDataAccess = inject(AuthDataAccess)
     private readonly sessionStorage = inject(WA_SESSION_STORAGE)
     private readonly localStorage = inject(WA_LOCAL_STORAGE)
@@ -42,6 +44,11 @@ export class AuthFacade {
                 }),
             )
             .subscribe()
+    }
+
+    logout() {
+        this.reset()
+        this.router.navigateByUrl("/login")
     }
 
     reset() {

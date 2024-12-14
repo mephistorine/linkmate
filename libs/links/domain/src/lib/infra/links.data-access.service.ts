@@ -1,5 +1,6 @@
 import {HttpClient} from "@angular/common/http"
 import {inject, Injectable} from "@angular/core"
+import {APP_CONFIG} from "@linkmate/shared-util-app-config"
 import {Observable} from "rxjs"
 
 type LinkListItemResDto = {
@@ -28,12 +29,13 @@ type CreateLinkResDto = {
 })
 export class LinksDataAccessService {
     private readonly httpClient = inject(HttpClient)
+    private readonly appConfig = inject(APP_CONFIG)
 
     getLinks(): Observable<LinkListItemResDto[]> {
-        return this.httpClient.get<LinkListItemResDto[]>("http://localhost:9000/api/links")
+        return this.httpClient.get<LinkListItemResDto[]>(`${this.appConfig.apiUrl}/links`)
     }
 
     createLink(link: CreateLinkReqDto): Observable<CreateLinkResDto> {
-        return this.httpClient.post<CreateLinkResDto>("http://localhost:9000/api/links", link)
+        return this.httpClient.post<CreateLinkResDto>(`${this.appConfig.apiUrl}/links`, link)
     }
 }

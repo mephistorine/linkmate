@@ -26,17 +26,20 @@
 
                         <div class="card-body">
                             <h5 class="card-title">
-                                <a [attr.href]="'http://localhost:9000/'+link.key" target="_blank">localhost:9000/{{ link.key }}</a>
+                                <a [attr.href]="link.shortUrl" target="_blank">{{ link.shortUrl }}</a>
                             </h5>
                             <p class="card-text">
-                                <a href="#" target="_blank" class="text-secondary">{{ link.url }}</a>
+                                <a [attr.href]="link.url" target="_blank" class="text-secondary">{{ link.url }}</a>
                             </p>
                         </div>
 
                         <div class="card-actions">
                             <!--TODO: Добавить сообщение о успешном копировании-->
-                            <button [cdkCopyToClipboard]="'http://localhost:9000/'+link.key" type="button" class="btn btn-secondary btn-sm">Copy</button>
-                            <a routerLink="/links/edit" [queryParams]="{'id': link.id}" class="btn btn-secondary btn-sm">Edit</a>
+                            <button [cdkCopyToClipboard]="link.shortUrl" type="button" class="btn btn-secondary btn-sm">
+                                Copy
+                            </button>
+                            <a routerLink="/links/edit" [queryParams]="{'id': link.id}"
+                               class="btn btn-secondary btn-sm">Edit</a>
                         </div>
                     </div>
                 }

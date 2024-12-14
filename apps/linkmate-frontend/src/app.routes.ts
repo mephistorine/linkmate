@@ -13,7 +13,7 @@ export const appRoutes: Route[] = [
     {
         path: "login",
         loadComponent: () => import("@linkmate/auth-feature-login-page").then(m => m.AuthFeatureLoginPageComponent),
-        title: createTitle("Title"),
+        title: createTitle("Login"),
         canActivate: [mustBeUnauthorizedGuard]
     },
     {

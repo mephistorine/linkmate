@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from "@angular/cdk/menu"
+import {ChangeDetectionStrategy, Component, inject} from "@angular/core"
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router"
+import {AuthFacade} from "@linkmate/auth-domain"
 
 @Component({
     selector: "lib-core-feature-shell",
@@ -12,6 +13,16 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router"
         RouterOutlet,
         RouterLink,
         RouterLinkActive,
+        CdkMenuTrigger,
+        CdkMenu,
+        CdkMenuItem,
+
     ],
 })
-export class CoreFeatureShellComponent {}
+export class CoreFeatureShellComponent {
+    private readonly authFacade = inject(AuthFacade)
+
+    logout() {
+        this.authFacade.logout()
+    }
+}

@@ -38,6 +38,9 @@
             "@linkmate/links-feature-links-page": [
                 "libs/links/feature-links-page/src/index.ts"
             ],
+            "@linkmate/shared-util-app-config": [
+                "libs/shared/util-app-config/src/index.ts"
+            ],
             "@linkmate/shared-util-logger": [
                 "libs/shared/util-logger/src/index.ts"
             ]

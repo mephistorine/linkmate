@@ -1,6 +1,7 @@
 import {computed, inject, Injectable, signal} from "@angular/core"
 import {Router} from "@angular/router"
-import {injectLogger} from "@linkmate/shared-util-logger"
+import {APP_CONFIG} from "@linkmate/shared-util-app-config"
+import {LOGGER} from "@linkmate/shared-util-logger"
 import {produce} from "immer"
 import {catchError, EMPTY, take, tap} from "rxjs"
 import {LinksDataAccessService} from "../infra/links.data-access.service"
@@ -21,8 +22,9 @@ type LinksFacadeState = {
 @Injectable({providedIn: "root"})
 export class LinksFacade {
     private readonly linksDataAccessService = inject(LinksDataAccessService)
-    private readonly logger = injectLogger()
+    private readonly logger = inject(LOGGER)
     private readonly router = inject(Router)
+    private readonly appConfig = inject(APP_CONFIG)
 
     private state = signal<LinksFacadeState>({
         links: {
@@ -33,7 +35,12 @@ export class LinksFacade {
 
     linksLoadingState = computed(() => this.state().links.loadingState)
 
-    links = computed(() => this.state().links.items)
+    links = computed(() => this.state().links.items.map((link) => {
+        return {
+            ...link,
+            shortUrl: this.appConfig.createShortUrl(link.key),
+        }
+    }))
 
     loadLinks(): void {
         this.linksDataAccessService
