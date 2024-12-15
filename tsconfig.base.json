@@ -35,6 +35,9 @@
             "@linkmate/links-feature-link-create-page": [
                 "libs/links/feature-link-create-page/src/index.ts"
             ],
+            "@linkmate/links-feature-link-edit-page": [
+                "libs/links/feature-link-edit-page/src/index.ts"
+            ],
             "@linkmate/links-feature-links-page": [
                 "libs/links/feature-links-page/src/index.ts"
             ],

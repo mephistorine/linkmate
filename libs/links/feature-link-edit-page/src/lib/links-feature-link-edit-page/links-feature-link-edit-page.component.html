@@ -1,0 +1,14 @@
+<div class="container py-2">
+    <header class="links-header mb-3">
+        <h2 class="m-0">Edit link</h2>
+    </header>
+
+    <form [formGroup]="form">
+        <div class="mb-3">
+            <label for="url" class="form-label">Url</label>
+            <input type="url" class="form-control" id="url" formControlName="url">
+        </div>
+
+        <button class="btn btn-primary w-100 py-2" type="submit">Save</button>
+    </form>
+</div>

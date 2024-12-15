@@ -3,7 +3,7 @@ import {Router} from "@angular/router"
 import {APP_CONFIG} from "@linkmate/shared-util-app-config"
 import {LOGGER} from "@linkmate/shared-util-logger"
 import {produce} from "immer"
-import {catchError, EMPTY, take, tap} from "rxjs"
+import {catchError, EMPTY, Observable, of, take, tap} from "rxjs"
 import {LinksDataAccessService} from "../infra/links.data-access.service"
 
 const enum LoadingState {
@@ -64,9 +64,19 @@ export class LinksFacade {
             .subscribe()
     }
 
+    loadLink(id: number): Observable<any> {
+        return this.linksDataAccessService.getLink(id).pipe(
+            take(1),
+        )
+    }
+
+    deleteLink(id: number): void {
+
+    }
+
     createLink(link: any): void {
         this.linksDataAccessService
-            .createLink(link)
+            .create(link)
             .pipe(
                 tap(() => {
                     this.router.navigateByUrl("/links")
