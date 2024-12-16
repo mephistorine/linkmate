@@ -96,6 +96,7 @@ func main() {
 	authGroup.POST("/login", authController.LoginHandler)
 	internalGroup.POST("/links", linkController.CreateLinkHandler)
 	internalGroup.GET("/links", linkController.LinkListHandler)
+	internalGroup.DELETE("/links", linkController.DeleteLinkHandler)
 	internalGroup.GET("/users/self", usersController.SelfHandler)
 	internalGroup.DELETE("/users/self", usersController.DeleteSelfHandler)
 	internalGroup.POST("/tags", tagsController.CreateTagHandler)
