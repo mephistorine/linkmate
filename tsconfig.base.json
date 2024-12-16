@@ -46,6 +46,9 @@
             ],
             "@linkmate/shared-util-logger": [
                 "libs/shared/util-logger/src/index.ts"
+            ],
+            "@linkmate/ui-confirm-dialog": [
+                "libs/shared/ui-confirm-dialog/src/index.ts"
             ]
         },
         "strict": true

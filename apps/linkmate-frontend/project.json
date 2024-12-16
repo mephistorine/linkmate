@@ -5,11 +5,6 @@
     "prefix": "app",
     "sourceRoot": "apps/linkmate-frontend/src",
     "tags": ["type:app"],
-    "cli": {
-        "cache": {
-            "enabled": false
-        }
-    },
     "targets": {
         "build": {
             "executor": "@nx/angular:application",

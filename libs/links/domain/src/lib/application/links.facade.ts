@@ -1,68 +1,43 @@
-import {computed, inject, Injectable, signal} from "@angular/core"
+import {Dialog} from "@angular/cdk/dialog"
+import {inject, Injectable} from "@angular/core"
+import {rxResource} from "@angular/core/rxjs-interop"
 import {Router} from "@angular/router"
 import {APP_CONFIG} from "@linkmate/shared-util-app-config"
 import {LOGGER} from "@linkmate/shared-util-logger"
-import {produce} from "immer"
-import {catchError, EMPTY, Observable, of, take, tap} from "rxjs"
+import {
+    catchError,
+    EMPTY,
+    filter,
+    map,
+    Observable,
+    switchMap,
+    take,
+    tap,
+} from "rxjs"
+import {
+    UiConfirmDialogComponent,
+} from "../../../../../shared/ui-confirm-dialog/src"
 import {LinksDataAccessService} from "../infra/links.data-access.service"
 
-const enum LoadingState {
-    Loading = "LOADING",
-    Error = "ERROR",
-    Success = "SUCCESS",
-}
-
-type LinksFacadeState = {
-    links: {
-        loadingState: LoadingState
-        items: any[]
-    }
-}
-
-@Injectable({providedIn: "root"})
+@Injectable({
+    providedIn: "root",
+})
 export class LinksFacade {
     private readonly linksDataAccessService = inject(LinksDataAccessService)
     private readonly logger = inject(LOGGER)
-    private readonly router = inject(Router)
     private readonly appConfig = inject(APP_CONFIG)
+    private readonly router = inject(Router)
+    private readonly dialogService = inject(Dialog)
 
-    private state = signal<LinksFacadeState>({
-        links: {
-            loadingState: LoadingState.Loading,
-            items: [],
-        },
+    links = rxResource({
+        loader: () => this.linksDataAccessService.getLinks().pipe(
+            map((links) =>
+                links.map((link) => ({
+                    ...link,
+                    shortUrl: this.appConfig.createShortUrl(link.key),
+                }))),
+        ),
     })
-
-    linksLoadingState = computed(() => this.state().links.loadingState)
-
-    links = computed(() => this.state().links.items.map((link) => {
-        return {
-            ...link,
-            shortUrl: this.appConfig.createShortUrl(link.key),
-        }
-    }))
-
-    loadLinks(): void {
-        this.linksDataAccessService
-            .getLinks()
-            .pipe(
-                tap((links) => {
-                    this.state.update(baseState => produce(baseState, s => {
-                        s.links.loadingState = LoadingState.Success
-                        s.links.items = links
-                    }))
-                }),
-                catchError((error) => {
-                    this.state.update(baseState => produce(baseState, s => {
-                        s.links.loadingState = LoadingState.Error
-                    }))
-                    this.logger.warn(error)
-                    return EMPTY
-                }),
-                take(1),
-            )
-            .subscribe()
-    }
 
     loadLink(id: number): Observable<any> {
         return this.linksDataAccessService.getLink(id).pipe(
@@ -71,7 +46,31 @@ export class LinksFacade {
     }
 
     deleteLink(id: number): void {
-
+        this.dialogService
+            .open(UiConfirmDialogComponent, {
+                width: "300px",
+                data: {
+                    title: "Ссылка будет удалена",
+                    okText: "Удалить",
+                },
+            })
+            .closed
+            .pipe(
+                take(1),
+                filter(Boolean),
+                switchMap(() => {
+                    return this.linksDataAccessService
+                        .deleteById(id)
+                        .pipe(
+                            take(1),
+                            tap(() => this.links.reload()),
+                            catchError((error) => {
+                                this.logger.warn(error)
+                                return EMPTY
+                            })
+                        )
+                })
+            ).subscribe()
     }
 
     createLink(link: any): void {

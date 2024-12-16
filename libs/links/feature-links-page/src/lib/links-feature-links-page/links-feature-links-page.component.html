@@ -5,20 +5,20 @@
         <a routerLink="/links/create" class="btn btn-primary btn-sm">Create link</a>
     </header>
 
-    @switch (linksFacade.linksLoadingState()) {
-        @case ("LOADING") {
+    @switch (linksFacade.links.status()) {
+        @case (ResourceStatus.Loading) {
             <div class="text-center">
                 <div class="spinner-border" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
         }
-        @case ("ERROR") {
+        @case (ResourceStatus.Error) {
             <div>Error</div>
         }
-        @case ("SUCCESS") {
+        @case (ResourceStatus.Resolved || ResourceStatus.Local) {
             <div class="d-flex flex-column gap-3">
-                @for (link of linksFacade.links(); track link.id) {
+                @for (link of linksFacade.links.value(); track link.id) {
                     <div class="card">
                         <div class="card-icon-container">
                             <img [attr.src]="originalUrlIcon(link.url)" alt="">
@@ -37,6 +37,11 @@
                             <!--TODO: Добавить сообщение о успешном копировании-->
                             <button [cdkCopyToClipboard]="link.shortUrl" type="button" class="btn btn-secondary btn-sm">
                                 Copy
+                            </button>
+                            <button type="button"
+                                    class="btn btn-danger btn-sm"
+                                    (click)="linksFacade.deleteLink(link.id)">
+                                Delete
                             </button>
                             <!--TODO: Реализовать редактирование-->
                             <!--<a routerLink="/links/edit" [queryParams]="{'id': link.id}"
