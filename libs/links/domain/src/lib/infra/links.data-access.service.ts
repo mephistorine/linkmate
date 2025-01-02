@@ -9,7 +9,7 @@ type LinkListItemResDto = {
     readonly key: string
     readonly url: string
     readonly userId: string
-    readonly tagIds: readonly string[]
+    readonly tagIds: readonly number[]
 }
 
 type CreateLinkReqDto = {

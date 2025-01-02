@@ -1,5 +1,11 @@
 import {Dialog} from "@angular/cdk/dialog"
-import {inject, Injectable} from "@angular/core"
+import {
+    inject,
+    Injectable,
+    Injector,
+    ResourceRef,
+    runInInjectionContext,
+} from "@angular/core"
 import {rxResource} from "@angular/core/rxjs-interop"
 import {Router} from "@angular/router"
 import {APP_CONFIG} from "@linkmate/shared-util-app-config"
@@ -14,9 +20,10 @@ import {
     take,
     tap,
 } from "rxjs"
+// TODO: Вынести в отдельный сервис ConfirmService
 import {
     UiConfirmDialogComponent,
-} from "../../../../../shared/ui-confirm-dialog/src"
+} from "@linkmate/ui-confirm-dialog"
 import {LinksDataAccessService} from "../infra/links.data-access.service"
 
 @Injectable({
@@ -28,16 +35,23 @@ export class LinksFacade {
     private readonly appConfig = inject(APP_CONFIG)
     private readonly router = inject(Router)
     private readonly dialogService = inject(Dialog)
+    private readonly injector = inject(Injector)
 
-    links = rxResource({
-        loader: () => this.linksDataAccessService.getLinks().pipe(
-            map((links) =>
-                links.map((link) => ({
-                    ...link,
-                    shortUrl: this.appConfig.createShortUrl(link.key),
-                }))),
-        ),
-    })
+    links: ResourceRef<any[]> | null = null
+
+    loadLinks() {
+        runInInjectionContext(this.injector, () => {
+            this.links = rxResource({
+                loader: () => this.linksDataAccessService.getLinks().pipe(
+                    map((links) =>
+                        links.map((link) => ({
+                            ...link,
+                            shortUrl: this.appConfig.createShortUrl(link.key),
+                        }))),
+                ),
+            })
+        })
+    }
 
     loadLink(id: number): Observable<any> {
         return this.linksDataAccessService.getLink(id).pipe(
@@ -50,8 +64,8 @@ export class LinksFacade {
             .open(UiConfirmDialogComponent, {
                 width: "300px",
                 data: {
-                    title: "Ссылка будет удалена",
-                    okText: "Удалить",
+                    title: "Delete link?",
+                    okText: "Delete",
                 },
             })
             .closed
@@ -63,7 +77,7 @@ export class LinksFacade {
                         .deleteById(id)
                         .pipe(
                             take(1),
-                            tap(() => this.links.reload()),
+                            tap(() => this.links?.reload()),
                             catchError((error) => {
                                 this.logger.warn(error)
                                 return EMPTY
